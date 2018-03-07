@@ -62,6 +62,7 @@ class ClientPlugin(object):
 
     _get_client_option = staticmethod(config.get_client_option)
 
+    #创建必要的客户端
     def client(self, version=None):
         if not version:
             version = self.default_version
@@ -71,6 +72,7 @@ class ClientPlugin(object):
 
         # Back-ward compatibility
         if version is None:
+            #调用 _create创建客户端
             self._client_instances[version] = self._create()
         else:
             if version not in self.supported_versions:
@@ -83,6 +85,7 @@ class ClientPlugin(object):
         return self._client_instances[version]
 
     @abc.abstractmethod
+    #创建client
     def _create(self, version=None):
         """Return a newly created client."""
         pass

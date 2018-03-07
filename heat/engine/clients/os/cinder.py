@@ -54,6 +54,7 @@ class CinderClientPlugin(client_plugin.ClientPlugin):
                 raise exception.Error(_('No volume service available.'))
 
     def _create(self):
+        #创建client
         self.get_volume_api_version()
         extensions = cc.discover_extensions(self.client_version)
         args = {

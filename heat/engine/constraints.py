@@ -710,6 +710,7 @@ class BaseCustomConstraint(object):
 
     def validate_with_client(self, client, resource_id):
         if self.resource_client_name and self.resource_getter_name:
+            #采用client名称，取对应的client,并通过resource_getter_name调用相关函数
             getattr(client.client_plugin(self.resource_client_name),
                     self.resource_getter_name)(resource_id)
         else:

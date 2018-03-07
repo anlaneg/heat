@@ -54,7 +54,9 @@ class OpenStackClients(object):
     def client_plugin(self, name):
         global _mgr
         if name in self._client_plugins:
+            #已将name放入，则直接返回
             return self._client_plugins[name]
+        #否则将name存入到_client_plugins
         if _mgr and name in _mgr.names():
             client_plugin = _mgr[name].plugin(self.context)
             self._client_plugins[name] = client_plugin
@@ -105,14 +107,15 @@ Clients = ClientBackend
 
 _mgr = None
 
-
+#检查指定名称的client是否已加载了
 def has_client(name):
     return _mgr and name in _mgr.names()
 
-
+#加载heat下的client
 def initialise():
     global _mgr
     if _mgr:
+        #mgr已初始化，返回
         return
 
     def client_is_available(client_plugin):
@@ -123,6 +126,7 @@ def initialise():
         # let the client plugin decide if it wants to register or not
         return client_plugin.plugin.is_available()
 
+    #加载heat.clients下的所有client
     _mgr = enabled.EnabledExtensionManager(
         namespace='heat.clients',
         check_func=client_is_available,
